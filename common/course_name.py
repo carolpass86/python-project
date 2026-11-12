@@ -1,0 +1,1 @@
+COURSE_NAME_LIST = ["chinese","english","math"]
