@@ -35,6 +35,7 @@ def process_add(student_data):
         "english_score":english_score,
         "math_score":math_score
     }
+    save_data(student_data)
     print("you added successfully")
 
 
@@ -80,8 +81,37 @@ def process_edit(student_data):
       print("student not exist")
 
 def process_ave(student_data):
-    pass
 
+    if not student_data:
+        print("student not exist")
+        return
+    # total_score = {}
+    #
+    #
+    # for course in COURSE_NAME_LIST:
+    #     course_key = course + "_score"
+    #     total_score[course_key] = 0
+    total_score = {
+        f"{course}_score": 0
+        for course in COURSE_NAME_LIST
+    }
+    for record in student_data.values():
+        for course_key in total_score:
+            total_score[course_key] += float(record[course_key])
+    # for record in student_data.values():
+    #     for course in COURSE_NAME_LIST:
+    #         course_key = course + "_score"
+    #         total_score[course_key] += float( record[course_key])
+    student_count = len(student_data)
+
+    for course_key, total in total_score.items():
+        average = total / student_count
+        course_name = course_key.replace("_score", "")
+        print(f"{course_name} average score: {average:.2f}")
+    # for course in COURSE_NAME_LIST:
+    #     course_key = course + "_score"
+    #     average_score = total_score[course_key]/ stu_count
+    #     print(f"{course}average score:{average_score}")
 
 
 def process_command(cmd:str,student_data:dict):
@@ -96,4 +126,4 @@ def process_command(cmd:str,student_data:dict):
     elif cmd == "exit":
         exit()
     elif cmd == "average":
-        process_ave()
+        process_ave(student_data)
